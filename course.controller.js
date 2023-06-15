@@ -21,6 +21,30 @@ const getCourseById = async (req, res) => {
   }
 };
 
+const createCourse = async (req, res) => {
+  try {
+    const { name, description, instructor } = req.body;
+    const course = new Course({ name, description, instructor });
+    const newCourse = await course.save();
+    res.json(newCourse);
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while creating the course.' });
+  }
+};
+
+const updateCourseById = async (req, res) => {
+  try {
+    const { name, description, instructor } = req.body;
+    const updatedCourse = await Course.findByIdAndUpdate(req.params.id, { name, description, instructor }, { new: true });
+    if (!updatedCourse) {
+      return res.status(404).json({ error: 'Course not found.' });
+    }
+    res.json(updatedCourse);
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while updating the course.' });
+  }
+};
+
 const deleteCourseById = async (req, res) => {
   try {
     const course = await Course.findByIdAndDelete(req.params.id);
@@ -36,5 +60,7 @@ const deleteCourseById = async (req, res) => {
 module.exports = {
   getAllCourses,
   getCourseById,
+  createCourse,
+  updateCourseById,
   deleteCourseById
 };
