@@ -7,13 +7,13 @@ const mongoose = require('mongoose');
 dotenv.config();
 
 // Set up MongoDB connection
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect(process.env.MongoDBURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
   .then(() => {
     console.log('Connected to MongoDB');
-    // Start the server after successful database connection
+
     const port = process.env.PORT || 3000;
     app.listen(port, () => {
       console.log(`Server running on port ${port}`);
@@ -22,3 +22,4 @@ mongoose.connect(process.env.MONGODB_URI, {
   .catch((error) => {
     console.error('Failed to connect to MongoDB', error);
   });
+  

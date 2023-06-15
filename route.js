@@ -13,5 +13,6 @@ router.delete('/students/:id', studentController.deleteStudentById);
 // Course routes
 router.get('/courses', courseController.getAllCourses);
 router.get('/courses/:id', courseController.getCourseById);
+router.delete('/courses/:id', courseController.deleteCourseById);
 
 module.exports = router;
