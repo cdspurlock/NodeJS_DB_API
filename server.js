@@ -1,6 +1,5 @@
 const app = require('./app');
-
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 const mongoose = require('mongoose');
 
 // Load environment variables from .env file
@@ -22,4 +21,3 @@ mongoose.connect(process.env.MongoDBURL, {
   .catch((error) => {
     console.error('Failed to connect to MongoDB', error);
   });
-  

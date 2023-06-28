@@ -1,23 +1,25 @@
 const Course = require('./course.model');
+const messages = require('./messages');
 
 const getAllCourses = async (req, res) => {
   try {
-    const courses = await Course.find();
+    const courses = await Course.find().populate('students');
     res.json(courses);
   } catch (error) {
-    res.status(500).json({ error: 'An error occurred while fetching courses.' });
+    res.status(500).json({ error: messages.errorFetching });
   }
 };
 
 const getCourseById = async (req, res) => {
   try {
-    const course = await Course.findById(req.params.id);
+    const courseId = req.params.id;
+    const course = await Course.findById(courseId).populate('students');
     if (!course) {
-      return res.status(404).json({ error: 'Course not found.' });
+      return res.status(404).json({ error: messages.objectNotFound });
     }
     res.json(course);
   } catch (error) {
-    res.status(500).json({ error: 'An error occurred while fetching the course.' });
+    res.status(500).json({ error: messages.errorFetching });
   }
 };
 
@@ -35,9 +37,14 @@ const createCourse = async (req, res) => {
 const updateCourseById = async (req, res) => {
   try {
     const { name, description, instructor } = req.body;
-    const updatedCourse = await Course.findByIdAndUpdate(req.params.id, { name, description, instructor }, { new: true });
+    const courseId = req.params.id;
+    const updatedCourse = await Course.findByIdAndUpdate(
+      courseId,
+      { name, description, instructor },
+      { new: true }
+    ).populate('students');
     if (!updatedCourse) {
-      return res.status(404).json({ error: 'Course not found.' });
+      return res.status(404).json({ error: messages.objectNotFound });
     }
     res.json(updatedCourse);
   } catch (error) {
@@ -47,9 +54,10 @@ const updateCourseById = async (req, res) => {
 
 const deleteCourseById = async (req, res) => {
   try {
-    const course = await Course.findByIdAndDelete(req.params.id);
+    const courseId = req.params.id;
+    const course = await Course.findByIdAndDelete(courseId);
     if (!course) {
-      return res.status(404).json({ error: 'Course not found.' });
+      return res.status(404).json({ error: messages.objectNotFound });
     }
     res.json({ message: 'Course deleted successfully.' });
   } catch (error) {

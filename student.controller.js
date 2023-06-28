@@ -1,23 +1,25 @@
 const Student = require('./student.model');
+const messages = require('./messages');
 
 const getAllStudents = async (req, res) => {
   try {
     const students = await Student.find();
     res.json(students);
   } catch (error) {
-    res.status(500).json({ error: 'An error occurred while fetching students.' });
+    res.status(500).json({ error: messages.errorFetching });
   }
 };
 
 const getStudentById = async (req, res) => {
   try {
-    const student = await Student.findById(req.params.id);
+    const studentId = req.params.id;
+    const student = await Student.findById(studentId);
     if (!student) {
-      return res.status(404).json({ error: 'Student not found.' });
+      return res.status(404).json({ error: messages.objectNotFound });
     }
     res.json(student);
   } catch (error) {
-    res.status(500).json({ error: 'An error occurred while fetching the student.' });
+    res.status(500).json({ error: messages.errorFetching });
   }
 };
 
@@ -35,9 +37,14 @@ const createStudent = async (req, res) => {
 const updateStudentById = async (req, res) => {
   try {
     const { name, age } = req.body;
-    const updatedStudent = await Student.findByIdAndUpdate(req.params.id, { name, age }, { new: true });
+    const studentId = req.params.id;
+    const updatedStudent = await Student.findByIdAndUpdate(
+      studentId,
+      { name, age },
+      { new: true }
+    );
     if (!updatedStudent) {
-      return res.status(404).json({ error: 'Student not found.' });
+      return res.status(404).json({ error: messages.objectNotFound });
     }
     res.json(updatedStudent);
   } catch (error) {
@@ -47,9 +54,10 @@ const updateStudentById = async (req, res) => {
 
 const deleteStudentById = async (req, res) => {
   try {
-    const student = await Student.findByIdAndDelete(req.params.id);
+    const studentId = req.params.id;
+    const student = await Student.findByIdAndDelete(studentId);
     if (!student) {
-      return res.status(404).json({ error: 'Student not found.' });
+      return res.status(404).json({ error: messages.objectNotFound });
     }
     res.json({ message: 'Student deleted successfully.' });
   } catch (error) {
