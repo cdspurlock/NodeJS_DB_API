@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const app = require("./app")
 
 // Import controllers
 const studentController = require('./student.controller');

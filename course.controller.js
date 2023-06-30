@@ -1,7 +1,7 @@
 const Course = require('./course.model');
 const messages = require('./messages');
 
-const getAllCourses = async (req, res) => {
+const getAllCourses = async (req, res, next) => {
   try {
     const courses = await Course.find().populate('students');
     res.json(courses);
@@ -10,7 +10,7 @@ const getAllCourses = async (req, res) => {
   }
 };
 
-const getCourseById = async (req, res) => {
+const getCourseById = async (req, res, next) => {
   try {
     const courseId = req.params.id;
     const course = await Course.findById(courseId).populate('students');
@@ -23,7 +23,7 @@ const getCourseById = async (req, res) => {
   }
 };
 
-const createCourse = async (req, res) => {
+const createCourse = async (req, res, next) => {
   try {
     const { name, description, instructor } = req.body;
     const course = new Course({ name, description, instructor });
@@ -34,7 +34,7 @@ const createCourse = async (req, res) => {
   }
 };
 
-const updateCourseById = async (req, res) => {
+const updateCourseById = async (req, res, next) => {
   try {
     const { name, description, instructor } = req.body;
     const courseId = req.params.id;
@@ -52,7 +52,7 @@ const updateCourseById = async (req, res) => {
   }
 };
 
-const deleteCourseById = async (req, res) => {
+const deleteCourseById = async (req, res, next) => {
   try {
     const courseId = req.params.id;
     const course = await Course.findByIdAndDelete(courseId);

@@ -1,7 +1,7 @@
-const Student = require('./student.model');
+const Student = require('./student.module');
 const messages = require('./messages');
 
-const getAllStudents = async (req, res) => {
+const getAllStudents = async (req, res, next) => {
   try {
     const students = await Student.find();
     res.json(students);
@@ -10,7 +10,7 @@ const getAllStudents = async (req, res) => {
   }
 };
 
-const getStudentById = async (req, res) => {
+const getStudentById = async (req, res, next) => {
   try {
     const studentId = req.params.id;
     const student = await Student.findById(studentId);
@@ -23,7 +23,7 @@ const getStudentById = async (req, res) => {
   }
 };
 
-const createStudent = async (req, res) => {
+const createStudent = async (req, res, next) => {
   try {
     const { name, age } = req.body;
     const student = new Student({ name, age });
@@ -34,7 +34,7 @@ const createStudent = async (req, res) => {
   }
 };
 
-const updateStudentById = async (req, res) => {
+const updateStudentById = async (req, res, next) => {
   try {
     const { name, age } = req.body;
     const studentId = req.params.id;
@@ -52,7 +52,7 @@ const updateStudentById = async (req, res) => {
   }
 };
 
-const deleteStudentById = async (req, res) => {
+const deleteStudentById = async (req, res, next) => {
   try {
     const studentId = req.params.id;
     const student = await Student.findByIdAndDelete(studentId);
