@@ -1,4 +1,4 @@
-const Course = require('./course.model');
+const Course = require('./course.module');
 const messages = require('./messages');
 
 const getAllCourses = async (req, res, next) => {
