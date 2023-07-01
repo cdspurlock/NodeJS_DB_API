@@ -1,15 +1,16 @@
 const app = require('./app');
-const dotenv = require("dotenv");
+const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 
 // Load environment variables from .env file
 dotenv.config();
 
 // Set up MongoDB connection
-mongoose.connect(process.env.MongoDBURL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose
+  .connect(process.env.MongoDBURL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log('Connected to MongoDB');
 
